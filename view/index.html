@@ -1,0 +1,70 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="materialize/css/materialize.min.css">
+        <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="materialize/js/materialize.min.js"></script>
+        <script type="text/javascript" src="js/typescript/DockerController.js"></script>
+        <script type="text/javascript" src="js/typescript/TableFixer.js"></script>
+    </head>
+    <body>
+        <nav class="blue lighten-2">
+            <div class="nav-wrapper container">
+                <a href="#" class="brand-logo">Docker Controller</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="#" class="dropdown-button" data-activates="dropdown-nav-info">Info</a></li>
+                    <ul id="dropdown-nav-info" class="dropdown-content">
+                        <li><a id="version" href="#">Version</a></li>
+                        <li><a id="info" href="#">Info</a></li>
+                        <li><a id="summary" href="#">Summary</a></li>
+                    </ul>
+                    <li><a href="#" class="dropdown-button" data-activates="dropdown-nav-images">Images</a></li>
+                    <ul id="dropdown-nav-images" class="dropdown-content">
+                        <li><a href="#" id="images-list">List</a></li>
+                    </ul>
+
+                    <li><a href="#" class="dropdown-button" data-activates="dropdown-nav-containers">Containers</a></li>
+                    <ul id="dropdown-nav-containers" class="dropdown-content">
+                        <li><a href="#" id="running">Running</a></li>
+                        <li><a href="#" id="all">All</a></li>
+                    </ul>
+
+                    <li><a href="#" id="exit">Exit</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container" id="content">
+
+        </div>
+        <script>
+            var DockerController = new DockerControllerWrapper(); // This will get overridden in javafx
+
+            $( document ).ready(function(){
+                $(".dropdown-button").dropdown();
+            });
+            $('#version').click(function(){
+                $('#content').html(DockerController.getVersion());
+            });
+            $('#info').click(function(){
+                $('#content').html(DockerController.getInfo());
+            });
+            $('#summary').click(function(){
+                $('#content').html(DockerController.getQuickVersion());
+            });
+            $('#images-list').click(function(){
+                $('#content').html(DockerController.getImages());
+            });
+            $('#running').click(function(){
+                $('#content').html(DockerController.getRunning());
+                TableFixer.makeContainerButtons(DockerController);
+            });
+            $('#all').click(function(){
+                $('#content').html(DockerController.getAllContainers());
+                TableFixer.makeContainerButtons(DockerController);
+            });
+            $('#exit').click(function(){
+                DockerController.exit();
+            })
+        </script>
+    </body>
+</html>
